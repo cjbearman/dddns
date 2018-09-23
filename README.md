@@ -6,9 +6,11 @@ This is a very simple lightweight alpine/shell script mechanism for maintaining 
 
 ```
 docker run -d \
-	-e HOST=...Hostname to update...
-	-e USERNAME=...DynDNS Username...
-	-e APIKEY=...DynDNS API Key...
+	-e HOST=hostname.to.update.com \
+	-e USERNAME=.somuser \
+	-e APIKEY=XXXXXXX \
+	--restart unless-stopped \
+	cbearman/dddns:latest
 ```
 
 # Additional options
