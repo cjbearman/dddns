@@ -24,3 +24,8 @@ To specify an alternative DNS server to use (by default your default DNS server 
 ```
 	-eRESOLVER=8.8.8.8
 ```
+
+To specify the timezone for logging, use TIMEZONE, for example
+```
+	-eTIMEZONE=America/Chicago
+```
