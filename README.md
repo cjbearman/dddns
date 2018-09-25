@@ -7,7 +7,7 @@ This is a very simple lightweight alpine/shell script mechanism for maintaining 
 ```
 docker run -d \
 	-e HOST=hostname.to.update.com \
-	-e USERNAME=.somuser \
+	-e USERNAME=someuser \
 	-e APIKEY=XXXXXXX \
 	--restart unless-stopped \
 	cbearman/dddns:latest
