@@ -29,3 +29,24 @@ To specify the timezone for logging, use TIMEZONE, for example
 ```
 	-eTIMEZONE=America/Chicago
 ```
+
+# Using docker swarm secrets
+Instead of passing your APIKEY as an environment variable, consider using docker swarm secrets if you are using docker swarm.
+
+Example:
+
+```
+echo -n "MY_API_KEY" | docker secret create dddns_api_key -
+docker service create \
+	--name dddns \
+	--secret ddns_api_key \
+	-e APIKEY_SECRET=dddns_api_key \
+	-e USERNAME=someuser \
+	-e HOST=hostname.to.update.com \
+	cbearman/dddns:latest
+```
+
+This creates a swarm secret with the name "ddns_api_key" and then creates a swarm service named "dddns" with access to that secret.
+In this way, your API Key is not easily obtainable from outside the container (i.e. an inspection of the service or container will not reveal the key).
+
+For this to work you must provide the USERNAME and HOST environment variables and also the APIKEY_SECRET environment variable that defines the name of the secret.
