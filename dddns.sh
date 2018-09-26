@@ -13,7 +13,6 @@ if [ ! -z "$TIMEZONE" ]; then
 	echo "$TIMEZONE" > /etc/timezone
 fi
 
-
 # The HOST variable is required to define the host to be updated
 if [ -z "$HOST" ]; then
 	log "Failure: Must define HOST"
@@ -26,10 +25,23 @@ if [ -z "$USERNAME" ]; then
 	exit 1
 fi
 
-# The APIKEY variable is required to define the dyndns API key
-if [ -z "$APIKEY" ]; then
-	log "Failure: Must define APIKEY"
-	exit 1
+# The APIKEY_SECRET variable defines the docker swarm secret
+# for the API KEY, if not defined, then we can use APIKEY environment
+# variable instead
+
+if [ ! -z "$APIKEY_SECRET" ]; then
+	SECRETFILE="/run/secrets/${APIKEY_SECRET}"
+	if [ ! -f $SECRETFILE ]; then
+		log "Failure: Secret ${APIKEY_SECRET} was not found"
+		exit 1
+	fi
+	APIKEY=`cat $SECRETFILE`
+else
+	# The APIKEY variable is required to define the dyndns API key
+	if [ -z "$APIKEY" ]; then
+		log "Failure: Must define APIKEY"
+		exit 1
+	fi
 fi
 
 # The interval is optional (default 600) seconds between check/update cycles
